@@ -214,7 +214,8 @@ var startLongRads = degreesToRadians(lon1);
 var destLatRads = degreesToRadians(lat2);
 var destLongRads = degreesToRadians(lon2);
 
-var Radius = 6371; // radius of the Earth in km
+//var Radius = 6371; // radius of the Earth in km
+var Radius = 6371000; // radius of the Earth in meters
 var distance = Math.acos(Math.sin(startLatRads) * Math.sin(destLatRads) + 
 Math.cos(startLatRads) * Math.cos(destLatRads) *
 Math.cos(startLongRads - destLongRads)) * Radius;
