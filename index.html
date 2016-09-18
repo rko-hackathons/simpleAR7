@@ -182,9 +182,13 @@ window.onload = function() {
 navigator.geolocation.watchPosition(function(position) {
     document.getElementById('currentLat').innerHTML = position.coords.latitude;
     document.getElementById('currentLon').innerHTML = position.coords.longitude;
-    document.getElementById('distance').innerHTML =
-      calculateDistance2(startPos.coords.latitude, startPos.coords.longitude,
-                        position.coords.latitude, position.coords.longitude);
+    
+    var dist =  calculateDistance2(startPos.coords.latitude, startPos.coords.longitude,
+    	position.coords.latitude, position.coords.longitude);
+    document.getElementById('distance').innerHTML = dist;
+    if (dist%30 > 1) {
+	    alert("display AR thing now");
+    }
 });
 
 };
