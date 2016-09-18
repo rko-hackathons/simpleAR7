@@ -20,8 +20,32 @@ html,body {
 </style>
 </head>
 <body>
+	<script>
+		// check for Geolocation support
+		if (navigator.geolocation) {
+  			console.log('Geolocation is supported!');
+		}
+		else {
+  			console.log('Geolocation is not supported for this Browser/OS version yet.');
+		}
+	</script>		
 
-<h1>Mixed markers with Three.js</h1>
+	<h1>Mixed markers with Three.js</h1>
+<div id="tripmeter">
+  <p>
+    Starting Location (lat, lon):<br/>
+    <span id="startLat">???</span>°, <span id="startLon">???</span>°
+  </p>
+  <p>
+    Current Location (lat, lon):<br/>
+    <span id="currentLat">???</span>°, <span id="currentLon">???</span>°
+  </p>
+  <p>
+    Distance from starting location:<br/>
+    <span id="distance">0</span> km
+  </p>
+</div>
+	
 <p>On Chrome on Android, tap the screen to start playing video stream.</p>
 <p>Show <a href="https://github.com/artoolkit/artoolkit5/blob/master/doc/patterns/Matrix%20code%203x3%20(72dpi)/5.png">3x3 marker id 5</a>, <a href="https://github.com/artoolkit/artoolkit5/blob/master/doc/patterns/Matrix%20code%203x3%20(72dpi)/20.png">3x3 marker id 20</a>, <a href="https://github.com/artoolkit/artoolkit5/blob/master/doc/patterns/Hiro%20pattern.pdf">Hiro pattern</a> and <a href="https://github.com/artoolkit/artoolkit5/blob/master/doc/patterns/Kanji%20pattern.pdf">Kanji pattern</a> to camera to display a colorful objects on top of them. Tap the objects to spin them.
 
