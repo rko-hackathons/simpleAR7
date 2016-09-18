@@ -1,0 +1,245 @@
+<html>
+<head>
+<title>Mixed marker with Three.js</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<style>
+html,body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	text-align: center;
+	overflow-x: hidden;
+}
+.portrait canvas {
+	transform-origin: 0 0;
+	transform: rotate(-90deg) translateX(-100%);
+}
+.desktop canvas {
+ 	transform: scale(-1, 1);
+}
+</style>
+</head>
+<body>
+	<script>
+		// check for Geolocation support
+		if (navigator.geolocation) {
+  			console.log('Geolocation is supported!');
+		}
+		else {
+  			console.log('Geolocation is not supported for this Browser/OS version yet.');
+		}
+	</script>		
+
+	<h1>Mixed markers with Three.js</h1>
+<div id="tripmeter">
+  <p>
+    Starting Location (lat, lon):<br/>
+    <span id="startLat">???</span>°, <span id="startLon">???</span>°
+  </p>
+  <p>
+    Current Location (lat, lon):<br/>
+    <span id="currentLat">???</span>°, <span id="currentLon">???</span>°
+  </p>
+  <p>
+    Distance from starting location:<br/>
+    <span id="distance">0</span> meters
+  </p>
+</div>
+	
+<p>Show <a href="https://github.com/artoolkit/artoolkit5/blob/master/doc/patterns/Matrix%20code%203x3%20(72dpi)/5.png">3x3 marker id 5</a>, <a href="https://github.com/artoolkit/artoolkit5/blob/master/doc/patterns/Matrix%20code%203x3%20(72dpi)/20.png">3x3 marker id 20</a>, <a href="https://github.com/artoolkit/artoolkit5/blob/master/doc/patterns/Hiro%20pattern.pdf">Hiro pattern</a> and <a href="https://github.com/artoolkit/artoolkit5/blob/master/doc/patterns/Kanji%20pattern.pdf">Kanji pattern</a> to camera to display a colorful objects on top of them. Tap the objects to spin them.
+
+<script async src="js/artoolkit.min.js"></script>
+<script async src="js/third_party/three.js/three.min.js"></script>
+<script async src="js/artoolkit.three.js"></script>
+
+<script>
+
+window.ARThreeOnLoad = function() {
+
+	ARController.getUserMediaThreeScene({
+		maxARVideoSize: 640,
+		cameraParam: 'Data/camera_para-iPhone 5 rear 640x480 1.0m.dat',
+		onSuccess: function(arScene, arController, arCamera) {
+
+			document.body.className = arController.orientation;
+
+			arController.setPatternDetectionMode(artoolkit.AR_TEMPLATE_MATCHING_MONO_AND_MATRIX);
+
+			var renderer = new THREE.WebGLRenderer({antialias: true});
+			if (arController.orientation === 'portrait') {
+				var w = (window.innerWidth / arController.videoHeight) * arController.videoWidth;
+				var h = window.innerWidth;
+				renderer.setSize(w, h);
+				renderer.domElement.style.paddingBottom = (w-h) + 'px';
+			} else {
+				if (/Android|mobile|iPad|iPhone/i.test(navigator.userAgent)) {
+					renderer.setSize(window.innerWidth, (window.innerWidth / arController.videoWidth) * arController.videoHeight);
+				} else {
+					renderer.setSize(arController.videoWidth, arController.videoHeight);
+					document.body.className += ' desktop';
+				}
+			}
+
+			document.body.insertBefore(renderer.domElement, document.body.firstChild);
+
+			var rotationV = 0;
+			var rotationTarget = 0;
+
+			renderer.domElement.addEventListener('click', function(ev) {
+				ev.preventDefault();
+				rotationTarget += 1;
+			}, false);
+
+			var sphere = new THREE.Mesh(
+				new THREE.SphereGeometry(1.0, 8, 8),
+				new THREE.MeshNormalMaterial()
+			);
+			sphere.material.shading = THREE.FlatShading;
+			sphere.position.z = 1.0;
+
+			var torus = new THREE.Mesh(
+				new THREE.TorusGeometry(0.3*2.5, 0.2*2.0, 8, 8),
+				new THREE.MeshNormalMaterial()
+			);
+			torus.material.shading = THREE.FlatShading;
+			torus.position.z = 1.25;
+			torus.rotation.x = Math.PI/2;
+
+			var cube = new THREE.Mesh(
+				new THREE.BoxGeometry(1,1,1),
+				new THREE.MeshNormalMaterial()
+			);
+			cube.material.shading = THREE.FlatShading;
+			cube.position.z = 0.5;
+
+			var icosahedron = new THREE.Mesh(
+				new THREE.IcosahedronGeometry(0.7, 1, 1),
+				new THREE.MeshNormalMaterial()
+			);
+			icosahedron.material.shading = THREE.FlatShading;
+			icosahedron.position.z = 0.7;
+
+			//var markerRoot = arController.createThreeBarcodeMarker(5, 1);
+			//markerRoot.add(cube);
+			//arScene.scene.add(markerRoot);
+
+			//var markerRoot = arController.createThreeBarcodeMarker(20, 1);
+			//markerRoot.add(icosahedron);
+			//arScene.scene.add(markerRoot);
+
+			//arController.loadMarker('Data/patt.hiro', function(markerId) {
+			//	var markerRoot = arController.createThreeMarker(markerId, 3);
+			//	markerRoot.add(sphere);
+			//	arScene.scene.add(markerRoot);
+			//});
+
+			//arController.loadMarker('Data/patt.kanji', function(markerId) {
+			//	var markerRoot = arController.createThreeMarker(markerId, 3);
+			//	markerRoot.add(torus);
+			//	arScene.scene.add(markerRoot);
+			//});
+
+			torus.position.x = 1.25;
+			torus.position.y = 1.25;
+			
+			arScene.scene.add(torus);
+
+			var tick = function() {
+				arScene.process();
+
+				rotationV += (rotationTarget - sphere.rotation.z) * 0.05;
+				sphere.rotation.z += rotationV;
+				torus.rotation.y += rotationV;
+				cube.rotation.z += rotationV;
+				icosahedron.rotation.z += rotationV;
+				rotationV *= 0.8;
+
+				arScene.renderOn(renderer);
+				requestAnimationFrame(tick);
+			};
+			tick();
+		}
+	});
+	delete window.ARThreeOnLoad;
+};
+
+if (window.ARController && ARController.getUserMediaThreeScene) {
+	ARThreeOnLoad();
+}
+</script>
+<script>
+window.onload = function() {
+	var startPos;
+	var nextStep = 1;
+  navigator.geolocation.getCurrentPosition(function(position) {
+    startPos = position;
+    document.getElementById('startLat').innerHTML = startPos.coords.latitude;
+    document.getElementById('startLon').innerHTML = startPos.coords.longitude;
+    }, function(error) {
+    alert('Error occurred. Error code: ' + error.code);
+    // error.code can be:
+    //   0: unknown error
+    //   1: permission denied
+    //   2: position unavailable (error response from locaton provider)
+    //   3: timed out
+  });
+
+navigator.geolocation.watchPosition(function(position) {
+    document.getElementById('currentLat').innerHTML = position.coords.latitude;
+    document.getElementById('currentLon').innerHTML = position.coords.longitude;
+    
+    var dist =  calculateDistance2(startPos.coords.latitude, startPos.coords.longitude,
+    	position.coords.latitude, position.coords.longitude);
+    document.getElementById('distance').innerHTML = dist;
+    if (dist > (30*nextStep) ) {
+	    nextStep++;
+    
+	    alert("display AR thing now: ");
+    }
+});
+
+};
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  //var R = 6371; // km
+  var R = 6371000; // meters
+  var dLat = (lat2 - lat1).toRad();
+  var dLon = (lon2 - lon1).toRad(); 
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+          Math.sin(dLon / 2) * Math.sin(dLon / 2); 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
+  var d = R * c;
+  return d;
+}
+Number.prototype.toRad = function() {
+  return this * Math.PI / 180;
+}
+
+//
+// Uses the Spherical Law of Cosines to find the distance
+// between two lat/long points
+//
+function calculateDistance2(lat1, lon1, lat2, lon2) {
+	var startLatRads = degreesToRadians(lat1);
+	var startLongRads = degreesToRadians(lon1);
+	var destLatRads = degreesToRadians(lat2);
+	var destLongRads = degreesToRadians(lon2);
+
+	//var Radius = 6371; // radius of the Earth in km
+	var Radius = 6371000; // radius of the Earth in meters
+	var distance = Math.acos(Math.sin(startLatRads) * Math.sin(destLatRads) + 
+	Math.cos(startLatRads) * Math.cos(destLatRads) *
+	Math.cos(startLongRads - destLongRads)) * Radius;
+
+	return distance;
+}
+
+function degreesToRadians(degrees) {
+	radians = (degrees * Math.PI)/180;
+	return radians;
+}
+
+</script>	
+
+</body>
+</html>
