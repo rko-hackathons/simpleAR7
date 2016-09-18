@@ -187,7 +187,7 @@ navigator.geolocation.watchPosition(function(position) {
     var dist =  calculateDistance2(startPos.coords.latitude, startPos.coords.longitude,
     	position.coords.latitude, position.coords.longitude);
     document.getElementById('distance').innerHTML = dist;
-    if (dist> (30*nextStep) > 1) {
+    if (dist > (30*nextStep) ) {
 	    nextStep++;
 	    alert("display AR thing now: ");
     }
