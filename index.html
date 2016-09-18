@@ -165,7 +165,8 @@ if (window.ARController && ARController.getUserMediaThreeScene) {
 </script>
 <script>
 window.onload = function() {
-  var startPos;
+	var startPos;
+	var nextStep = 1;
   navigator.geolocation.getCurrentPosition(function(position) {
     startPos = position;
     document.getElementById('startLat').innerHTML = startPos.coords.latitude;
@@ -186,8 +187,9 @@ navigator.geolocation.watchPosition(function(position) {
     var dist =  calculateDistance2(startPos.coords.latitude, startPos.coords.longitude,
     	position.coords.latitude, position.coords.longitude);
     document.getElementById('distance').innerHTML = dist;
-    if (dist%30 > 1) {
-	    alert("display AR thing now");
+    if (dist> (30*nextStep) > 1) {
+	    nextStep++;
+	    alert("display AR thing now: "+ nextStep);
     }
 });
 
