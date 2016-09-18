@@ -178,7 +178,6 @@ window.onload = function() {
     //   2: position unavailable (error response from locaton provider)
     //   3: timed out
   });
-};
 
 navigator.geolocation.watchPosition(function(position) {
     document.getElementById('currentLat').innerHTML = position.coords.latitude;
@@ -188,6 +187,7 @@ navigator.geolocation.watchPosition(function(position) {
                         position.coords.latitude, position.coords.longitude);
 });
 
+};
 function calculateDistance(lat1, lon1, lat2, lon2) {
   //var R = 6371; // km
   var R = 6371000; // meters
