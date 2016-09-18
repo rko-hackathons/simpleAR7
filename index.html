@@ -215,25 +215,24 @@ Number.prototype.toRad = function() {
 // between two lat/long points
 //
 function calculateDistance2(lat1, lon1, lat2, lon2) {
-var startLatRads = degreesToRadians(lat1);
-var startLongRads = degreesToRadians(lon1);
-var destLatRads = degreesToRadians(lat2);
-var destLongRads = degreesToRadians(lon2);
+	var startLatRads = degreesToRadians(lat1);
+	var startLongRads = degreesToRadians(lon1);
+	var destLatRads = degreesToRadians(lat2);
+	var destLongRads = degreesToRadians(lon2);
 
-//var Radius = 6371; // radius of the Earth in km
-var Radius = 6371000; // radius of the Earth in meters
-var distance = Math.acos(Math.sin(startLatRads) * Math.sin(destLatRads) + 
-Math.cos(startLatRads) * Math.cos(destLatRads) *
-Math.cos(startLongRads - destLongRads)) * Radius;
+	//var Radius = 6371; // radius of the Earth in km
+	var Radius = 6371000; // radius of the Earth in meters
+	var distance = Math.acos(Math.sin(startLatRads) * Math.sin(destLatRads) + 
+	Math.cos(startLatRads) * Math.cos(destLatRads) *
+	Math.cos(startLongRads - destLongRads)) * Radius;
 
-return distance;
+	return distance;
 }
 
 function degreesToRadians(degrees) {
-radians = (degrees * Math.PI)/180;
-return radians;
+	radians = (degrees * Math.PI)/180;
+	return radians;
 }
-
 
 </script>	
 
