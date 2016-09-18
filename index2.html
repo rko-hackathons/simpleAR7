@@ -102,7 +102,7 @@ window.ARThreeOnLoad = function() {
 				new THREE.MeshNormalMaterial()
 			);
 			torus.material.shading = THREE.FlatShading;
-			torus.position.z = 1.25;
+			//torus.position.z = 1.25;
 			torus.rotation.x = Math.PI/2;
 
 			var cube = new THREE.Mesh(
@@ -139,8 +139,9 @@ window.ARThreeOnLoad = function() {
 			//	arScene.scene.add(markerRoot);
 			//});
 
-			torus.position.x = 0.65;
-			torus.position.y = 0.65;
+			torus.position.x = 0.55;
+			torus.position.y = 0.55;
+			torus.position.z = 0.55;
 			
 			arScene.scene.add(torus);
 
