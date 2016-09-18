@@ -184,7 +184,7 @@ navigator.geolocation.watchPosition(function(position) {
     document.getElementById('currentLat').innerHTML = position.coords.latitude;
     document.getElementById('currentLon').innerHTML = position.coords.longitude;
     document.getElementById('distance').innerHTML =
-      calculateDistance(startPos.coords.latitude, startPos.coords.longitude,
+      calculateDistance2(startPos.coords.latitude, startPos.coords.longitude,
                         position.coords.latitude, position.coords.longitude);
 });
 
@@ -203,6 +203,25 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 Number.prototype.toRad = function() {
   return this * Math.PI / 180;
 }
+
+//
+// Uses the Spherical Law of Cosines to find the distance
+// between two lat/long points
+//
+function calculateDistance2(lat1, lon1, lat2, lon2) {
+var startLatRads = degreesToRadians(lat1);
+var startLongRads = degreesToRadians(lon1);
+var destLatRads = degreesToRadians(lat2);
+var destLongRads = degreesToRadians(lon2);
+
+var Radius = 6371; // radius of the Earth in km
+var distance = Math.acos(Math.sin(startLatRads) * Math.sin(destLatRads) + 
+Math.cos(startLatRads) * Math.cos(destLatRads) *
+Math.cos(startLongRads - destLongRads)) * Radius;
+
+return distance;
+}
+
 
 </script>	
 
