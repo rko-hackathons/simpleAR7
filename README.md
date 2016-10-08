@@ -1,14 +1,13 @@
-# simpleAR7 - Geolocation Upgrades to JSARToolKit with a demo web app
-for the Stamford Hackathon 16-18 September 2016
-
-## simpleAR7 Demo - Showing Geolocation hacks added to the JSARToolKit (and using X3DOM and Three.js)
+# simpleAR7
+## simpleAR7 Demo - Showing Geolocation hacks added to the JSARToolKit5
 
 Entry for The Stamford Hackathon 16-18 September 2016
 
-<img align="right" height="200" src="https://raw.githubusercontent.com/mkobar/LandGrab-app/master/www/img/landgrab1.png">
+<img align="right" height="200" src="https://raw.githubusercontent.com/mkobar/simpleAR7/master/Screenshot_2016-10-08-17-53-33.png">
+<img align="right" height="200" src="https://raw.githubusercontent.com/mkobar/simpleAR7/master/sphere.png">
 
 ### The Idea
-The idea is to allow geolocation-only AR in supported web browsers, without any third party apps required.
+The idea is to allow geolocation-only Augmented Reality (AR) in supported web browsers, without any third party apps (No Apps) required.  So No AppAR.
 
 ### How It Works
 The current JSARToolKit5 (ported from the python library) already allows AR in web browsers, but with real-time video detection of markers or limited barcodes.  Our hacks use geolocation and geofences to trigger the AR point detection, then allow an image to be displayed at a marker location.
