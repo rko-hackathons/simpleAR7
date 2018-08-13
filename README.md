@@ -30,7 +30,7 @@ https://mkobar.github.io/simpleAR7/index.html
 
 https://mkobar.github.io/simpleAR7/index2.html
 
-##Resources
+## Resources
 
 Stamford Hackathon site: http://www.stamfordhackathon.org/
 
@@ -41,3 +41,7 @@ JSARToolKit - https://github.com/artoolkit/jsartoolkit5
 Three.js - https://threejs.org and http://ushiroad.com/3j/
 
 X3DOM - http://www.x3dom.org
+
+## License
+
+Copyright @ 2016 [RKOSecurity](http://www.rkosecurity.com)
